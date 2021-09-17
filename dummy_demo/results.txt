@@ -1,0 +1,48 @@
+
+
+gen best mean std
+0 57.286267 -2.728681 11.363674
+
+gen best mean std
+0 66.094638 0.474098 16.866083
+
+gen best mean std
+0 21.752976 -3.944557 5.303394
+doomsday
+
+gen best mean std
+0 39.179917 -1.767246 9.71161
+doomsday
+doomsday
+
+gen best mean std
+0 57.732142 -0.310301 13.130756
+doomsday
+
+gen best mean std
+0 12.790514 -3.633561 4.376848
+doomsday
+doomsday
+
+gen best mean std
+0 57.16227 4.090302 16.390646
+doomsday
+doomsday
+
+gen best mean std
+0 30.752976 0.292889 10.606677
+doomsday
+
+gen best mean std
+0 57.16227 -1.46208 11.700851
+doomsday
+doomsday
+
+gen best mean std
+0 57.16227 0.578003 13.734725
+doomsday
+
+gen best mean std
+0 57.16227 1.752894 14.387366
+doomsday
+doomsday
