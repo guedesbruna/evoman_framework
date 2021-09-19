@@ -210,16 +210,6 @@ else:
     file_aux.close()
 
 
-
-
-#saves results for first pop
-file_aux  = open(experiment_name+'/results.txt','a')
-file_aux.write('\n\ngen best mean std')
-print( '\n GENERATION '+str(ini_g)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6)))
-file_aux.write('\n'+str(ini_g)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6))   )
-file_aux.close()
-
-
 # evolution
 
 last_sol = fit_pop[best]
@@ -236,7 +226,7 @@ for j in range(0,10): #add to the end j+=1 e tb resetear logs
     env.update_solutions(solutions)
 
     # saves results for first pop
-    file_aux  = open(experiment_name+'/results.txt','a')
+    file_aux  = open(experiment_name+'/results_'+str(j)+'.txt','a')
     file_aux.write('\n\ngen best mean std')
     print( '\n GENERATION '+str(ini_g)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6)))
     file_aux.write('\n'+str(ini_g)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6))   )
@@ -261,6 +251,7 @@ for j in range(0,10): #add to the end j+=1 e tb resetear logs
         chosen = np.append(chosen[1:],best)
         pop = pop[chosen]
         fit_pop = fit_pop[chosen]
+        
 
 
         # searching new areas
@@ -273,7 +264,7 @@ for j in range(0,10): #add to the end j+=1 e tb resetear logs
 
         if notimproved >= 15:
 
-            file_aux  = open(experiment_name+'/results.txt','a')
+            file_aux  = open(experiment_name+'/results_'+str(j)+'.txt','a')
             file_aux.write('\ndoomsday')
             file_aux.close()
 
@@ -291,10 +282,10 @@ for j in range(0,10): #add to the end j+=1 e tb resetear logs
         file_aux.write('\n'+str(i)+' '+str(round(fit_pop[best],6))+' '+str(round(mean,6))+' '+str(round(std,6))   )
         file_aux.close()
 
-        # saves generation number
-        file_aux  = open(experiment_name+'/gen'+str(j)+'.txt','w')
-        file_aux.write(str(i))
-        file_aux.close()
+        # # saves generation number. since they all have the same number of generation with no interruption all files have the same number
+        # file_aux  = open(experiment_name+'/gen'+str(j)+'.txt','w')
+        # file_aux.write(str(i))
+        # file_aux.close()
 
         # saves file with the best solution
         np.savetxt(experiment_name+'/best'+str(j)+'.txt',pop[best])
