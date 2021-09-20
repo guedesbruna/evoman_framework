@@ -16,7 +16,7 @@ def line_plot(nexp = 10):
         locals()['df'+str(i)] = pd.read_csv('results_'+str(i)+'.txt', sep= ' ', header=None,\
                                             names=['gen', 'best', 'mean', 'std'])
 
-        # retain best value only and aggregate mean and std for later
+        # at first iteration copies the dataframe, in successive ones computes mean of dataframes
 
         if i == 0:
             avg = locals()['df'+str(i)]
@@ -24,6 +24,8 @@ def line_plot(nexp = 10):
             avg['best'] = pd.concat([avg['best'], locals()['df'+str(i)]['best']]).mean(level=0)
             avg['mean'] = pd.concat([avg['mean'], locals()['df'+str(i)]['mean']]).mean(level=0)
             avg['std'] = pd.concat([avg['std'], locals()['df' + str(i)]['std']]).mean(level=0)
+
+    # make number of generations start from 1
 
     avg['gen'] = avg['gen'] + np.ones(nexp)
 
