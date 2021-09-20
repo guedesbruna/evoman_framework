@@ -101,6 +101,23 @@ def tournament(pop):
     else:
         return pop[c2][0]
 
+def rank_selection(pop):
+    #select parent based on rank selection method
+
+    #rank population based on fitness (high to low)
+    pop_sorted = np.argsort(-fit_pop)
+    probs = []
+    n = npop
+    s = 1.5 #between 1 and 2: if set to two, the lowest rank will never be picked
+
+    for i in range(len(pop_sorted)):
+        p = (2-s)/n + ((2*i)*(s-1))/(n*(n-1))
+        probs.append(p)
+
+    #pick a parent based on the probs
+    picked_index = np.random.choice(pop_sorted, p=probs)
+    return pop[picked_index]
+
 
 # limits
 def limits(x):
@@ -121,8 +138,8 @@ def crossover(pop):
 
 
     for p in range(0,pop.shape[0], 2):
-        p1 = tournament(pop)
-        p2 = tournament(pop)
+        p1 = rank_selection(pop)
+        p2 = rank_selection(pop)
 
         n_offspring =   np.random.randint(1,3+1, 1)[0]
         offspring =  np.zeros( (n_offspring, n_vars) )
