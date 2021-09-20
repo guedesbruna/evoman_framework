@@ -21,15 +21,17 @@ def line_plot(nexp = 10):
         if i == 0:
             avg = locals()['df'+str(i)]
         else:
-            avg['best'] = pd.concat([avg['best'], locals()['df'+str(i)]['best']]).max(level=0)
+            avg['best'] = pd.concat([avg['best'], locals()['df'+str(i)]['best']]).mean(level=0)
             avg['mean'] = pd.concat([avg['mean'], locals()['df'+str(i)]['mean']]).mean(level=0)
             avg['std'] = pd.concat([avg['std'], locals()['df' + str(i)]['std']]).mean(level=0)
+
+    avg['gen'] = avg['gen'] + np.ones(nexp)
 
     # Plotting
 
     plt.plot(avg['gen'], avg['mean'], color = 'blue', label = 'Mean EA1')
     plt.plot(avg['gen'], avg['best'], linestyle= '--',  color = 'blue', label = 'Maximum EA1')
-    plt.fill_between(range(1, nexp), avg['mean'] - avg['std'], avg['mean'] + avg['std'], alpha = 0.5)
+    plt.fill_between(range(1, nexp+1), avg['mean'] - avg['std'], avg['mean'] + avg['std'], alpha = 0.5)
     plt.xlabel('Generation')
     plt.ylabel('Fitness')
     plt.legend()
