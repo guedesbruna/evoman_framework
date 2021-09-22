@@ -14,7 +14,7 @@ def line_plot(nexp = 10): #change this number to match number of generations
         # read each results file and create a dataframe
 
         locals()['df'+str(i)] = pd.read_csv('results_'+str(i)+'.txt', sep= ' ', header=None,\
-                                            names=['gen', 'best', 'mean', 'std'])
+                                            names=['gen', 'best', 'mean', 'std', 'gain'])
 
         # at first iteration copies the dataframe, in successive ones computes mean of dataframes
 
@@ -28,6 +28,7 @@ def line_plot(nexp = 10): #change this number to match number of generations
     # make number of generations start from 1
 
     avg['gen'] = avg['gen'] + np.ones(avg.shape[0])
+    print(avg)
 
     # Plotting
 
