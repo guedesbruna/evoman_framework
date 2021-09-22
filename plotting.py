@@ -27,7 +27,7 @@ def line_plot(nexp = 10): #change this number to match number of generations
 
     # make number of generations start from 1
 
-    avg['gen'] = avg['gen'] + np.ones(nexp)
+    avg['gen'] = avg['gen'] + np.ones(avg.shape[0])
 
     # Plotting
 
@@ -37,7 +37,7 @@ def line_plot(nexp = 10): #change this number to match number of generations
     plt.xlabel('Generation')
     plt.ylabel('Fitness')
     plt.legend()
-    plt.savefig('figure1.png')
+    plt.savefig('figure2.png')
     plt.show()
 
 
