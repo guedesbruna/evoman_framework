@@ -41,7 +41,8 @@ env = Environment(experiment_name=experiment_name,
                   enemymode="static",
                   level=2,
                   contacthurt='player',
-                  speed="fastest")
+                  speed="fastest",
+                  randomini="yes")
 
 # default environment fitness is assumed for experiment
 env.state_to_log()  # checks environment state
@@ -63,7 +64,7 @@ n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1)
 dom_u = 1
 dom_l = -1
 npop = 50  # 100
-gens = 10  # 30
+gens = 20  # 30
 mutation = 0.2  # 0.2
 last_best = 0
 
@@ -142,7 +143,7 @@ def crossover(pop):
         p2 = rank_selection(pop)
 
         # n_offspring =   np.random.randint(1,3+1, 2)[0]
-        n_offspring = int(npop / 7)
+        n_offspring = int(npop / 5) #slide 17 ch 5 class says a better approach is 3 instead of classical 7
         offspring = np.zeros((n_offspring, n_vars))
 
         for f in range(0, n_offspring):
@@ -150,7 +151,6 @@ def crossover(pop):
             cross_prop = np.random.uniform(0, 1)
             offspring[f] = p1 * cross_prop + p2 * (1 - cross_prop)
 
-            ################
             # mutation
             # mutate each gene with prob. for each offspring if rand < than mutation rate
             # mutation strategy used: uncorrelated mutation with one size step.
@@ -159,8 +159,9 @@ def crossover(pop):
             tau = 1 / npop ** (1 / 2)
             sigma = 1
             sigma = sigma * e ** (tau * np.random.normal(0, 1))  # mutation step size
-
-            ###############
+            #while sigma < 0.1: #not necessary, never get's too low when sigma starts at 1. starts at 1 because it is a Gaussian
+            #    sigma = sigma * e ** (tau * np.random.normal(0, 1))
+                
             for i in range(0, len(offspring[f])):
                 if np.random.uniform(0, 1) <= mutation:  # and mutation is 0.2 by default
                     offspring[f][i] = offspring[f][i] + sigma * np.random.normal(0, 1)
@@ -301,7 +302,7 @@ for j in range(0, 10):  # add to the end j+=1 e tb resetear logs
         fit_pop_norm = np.array(list(map(lambda y: norm(y, fit_pop_cp),
                                          fit_pop)))  # avoiding negative probabilities, as fitness is ranges from negative numbers
         probs = (fit_pop_norm) / (fit_pop_norm).sum()
-        chosen = np.random.choice(pop.shape[0], npop, p=probs, replace=True)  # originally replace = false
+        chosen = np.random.choice(pop.shape[0], npop, p=probs, replace=False)  # originally replace = false
         chosen = np.append(chosen[1:], best)
         pop = pop[chosen]
         fit_pop = fit_pop[chosen]

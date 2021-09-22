@@ -7,7 +7,7 @@ os.chdir('./dummy_demo')
 
 #function for plotting line plots for mean and maximum fitness
 
-def line_plot(nexp = 10): #change this number to match number of generations
+def line_plot(nexp = 10): #change this number to match number of runs
     avg = pd.DataFrame()
     for i in range(nexp):
 
