@@ -57,7 +57,7 @@ n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1)
 
 dom_u = 1
 dom_l = -1
-npop = 30  # 100
+npop = 100 # 100
 gens = 20  # 30
 mutation = 0.2  # 0.2
 last_best = 0
@@ -217,7 +217,7 @@ def explore(pop, fit_pop):
     for g in to_replace:
         for v in range(0, n_vars):
             pop[g][v] = np.random.uniform(-1, 1)
-        fit_pop[o] = evaluate([pop[o]])[:, 0]
+        fit_pop[g] = evaluate([pop[g]])[:, 0]
     return pop, fit_pop
 
 
