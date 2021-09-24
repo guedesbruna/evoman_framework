@@ -218,7 +218,9 @@ def explore(pop, fit_pop):
         for v in range(0, n_vars):
             pop[g][v] = np.random.uniform(-1, 1)
         fit_pop[g] = evaluate([pop[g]])[:, 0]
-    return pop, fit_pop
+
+    fit_pop_ind = evaluate(pop)[:, 1]
+    return pop, fit_pop, fit_pop_ind
 
 
 
