@@ -1,19 +1,20 @@
 import sys
-
 sys.path.insert(0, 'evoman')
 from environment import Environment
 from demo_controller import player_controller
-
-# imports other libs
 import time
 import numpy as np
 from math import fabs, sqrt, exp, e
 import glob, os
 
+str(round(fit_pop_ind[best_ind], 6))
+
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
+
+# selects the folder containing the best individuals, change it to run for another EA/enemy
 
 experiment_name = 'dummy_demo/EA1 E7'
 
@@ -37,11 +38,7 @@ env.state_to_log()  # checks environment state
 
 ini = time.time()  # sets time marker
 
-# genetic algorithm params
-
 run_mode = 'test'  # train or test
-
-# number of weights for multilayer with 10 hidden neurons
 
 def simulation(env, x):
     f, p, e, t = env.play(pcont=x)  # fitness, player, enemy, time
@@ -49,7 +46,6 @@ def simulation(env, x):
 
 def evaluate(x):
     return np.array(list(map(lambda y: simulation(env, y), x)))
-
 
 # loads file with the best solution for testing
 if run_mode == 'test':
