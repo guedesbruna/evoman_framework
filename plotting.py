@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import os
 
+plt.rc('font', size=15)
+
 NEXP = 10
 
 def construct_dataset(folder, filename, type):
@@ -81,9 +83,9 @@ def line_plot(enemy): # enemy (int or str with enemy number)
 def box_plot(enemy):
 
     avg_1 = construct_dataset('EA1 E' + str(enemy), 'bi_results', 'box')
-    avg_2 = construct_dataset('EA2 E' + str(enemy), 'bi_results', 'box')
+    #avg_2 = construct_dataset('EA2 E' + str(enemy), 'bi_results', 'box')
 
-    plt.boxplot([avg_1['gain'], avg_2['gain']), patch_artist=True, labels=['EA1', 'EA2'])
+    plt.boxplot([avg_1['gain'], avg_2['gain']], patch_artist=True, labels=['EA1', 'EA2'])
     plt.xlabel('Evolutionary Algorithm')
     plt.ylabel('Individual Gain')
     plt.title('Best Individuals - Enemy ' + str(enemy))
