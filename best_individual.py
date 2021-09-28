@@ -15,7 +15,7 @@ if headless:
 
 # selects the folder containing the best individuals, change it to run for another EA/enemy
 
-en = 6 # change this to change enemy
+en = 4 # change this to change enemy
 ea = 1
 experiment_name = 'dummy_demo/EA'+str(ea)+' E' +str(en)
 
