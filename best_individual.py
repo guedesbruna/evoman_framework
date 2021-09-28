@@ -1,4 +1,5 @@
 import sys
+
 sys.path.insert(0, 'evoman')
 from environment import Environment
 from demo_controller import player_controller
@@ -7,8 +8,6 @@ import numpy as np
 from math import fabs, sqrt, exp, e
 import glob, os
 
-str(round(fit_pop_ind[best_ind], 6))
-
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
@@ -16,13 +15,15 @@ if headless:
 
 # selects the folder containing the best individuals, change it to run for another EA/enemy
 
-experiment_name = 'dummy_demo/EA1 E7'
+en = 6 # change this to change enemy
+ea = 1
+experiment_name = 'dummy_demo/EA'+str(ea)+' E' +str(en)
 
 n_hidden_neurons = 10
 
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
-                  enemies=[7],  # array with 1 to 8 items
+                  enemies=[en],  # array with 1 to 8 items
                   playermode="ai",
                   player_controller=player_controller(n_hidden_neurons),
                   enemymode="static",
