@@ -5,7 +5,7 @@ import os
 
 from scipy import stats
 from statsmodels.graphics.gofplots import qqplot
-from scipy.stats import shapiro, ttest_ind
+from scipy.stats import shapiro, ttest_ind, ks_2samp
 from numpy.random import seed
 
 plt.rc('font', size=15)
@@ -98,16 +98,16 @@ def box_plot(enemy):
     print('avg2: Statistics=%.3f, p=%.3f' % (stats, q))
 
     alpha = 0.05
-    if p or q > alpha:
+    if p and q > alpha:
         print('----------------------------------------------------')
-        print('Gaussian: (fail to reject H0), therefore apply 2 sample ttest')
+        print('YES Gaussian: (fail to reject H0), therefore apply 2 sample ttest')
         print('2 sample independent ttest: ' + str(ttest_ind(avg_1, avg_2))) 
         print('----------------------------------------------------')
     else:
         print('----------------------------------------------------')
-        print('not Gaussian: (reject H0), therefore apply KS')
+        print('NOT Gaussian: (reject H0), therefore apply KS')
         #for 2 independent samples with non-normal distribution. H0 > 2 populations are the same
-        #print(stats.ks_2samp(avg_1, avg_2)) 
+        print(ks_2samp(avg_1, avg_2)) 
         print('----------------------------------------------------')
 
     plt.boxplot([avg_1['gain'], avg_2['gain']], patch_artist=True, labels=['EA1', 'EA2'])
