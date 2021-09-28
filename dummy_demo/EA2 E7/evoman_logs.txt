@@ -1,0 +1,249 @@
+
+
+MESSAGE: Pygame initialized for simulation.
+
+########## Simulation state - INI ###########
+
+# solutions # : EMPTY 
+
+# sensors # : 20
+
+ ------  parameters ------  
+
+# contact hurt (training agent) # : player
+
+multiple mode: no
+
+enemies list: 7
+
+current enemy: 7
+
+player mode: ai
+
+enemy mode: static
+
+level: 2
+
+clock precision: low
+
+inputs coded: no
+
+random initialization: yes
+
+expiration time: 3000
+
+speed: fastest
+
+load player: yes
+
+load enemy: yes
+
+sound: off
+
+overture time: 100
+
+logs: on
+
+save logs: yes
+
+########## Simulation state - END ###########
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.35425332628682; player life: 65.80000000000032; enemy life: 0; time: 186
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.35425332628682; player life: 65.80000000000032; enemy life: 0; time: 186
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 48.557582289478205; player life: 0; enemy life: 40.0; time: 231
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 88.77173296930549; player life: 40.600000000000286; enemy life: 0; time: 198
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.15173296930548; player life: 54.40000000000032; enemy life: 0; time: 198
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 57.5489615464343; player life: 0; enemy life: 30.0; time: 233
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.81289246928257; player life: 61.600000000000335; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.59289246928256; player life: 69.40000000000029; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.81289246928257; player life: 61.600000000000335; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.59289246928256; player life: 69.40000000000029; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.59173296930548; player life: 68.8000000000003; enemy life: 0; time: 198
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 75.3266767328285; player life: 0; enemy life: 10.0; time: 291
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 75.26665872310225; player life: 0; enemy life: 10.0; time: 309
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 30.64341372532799; player life: 0; enemy life: 60.0; time: 212
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.59173296930548; player life: 68.8000000000003; enemy life: 0; time: 198
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 66.29955642660931; player life: 0; enemy life: 20.0; time: 299
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.77289246928257; player life: 71.20000000000027; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.50814186652396; player life: 58.60000000000033; enemy life: 0; time: 211
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 66.29955642660931; player life: 0; enemy life: 20.0; time: 299
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 92.123413725328; player life: 74.80000000000024; enemy life: 0; time: 212
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 87.49703951986407; player life: 31.600000000000264; enemy life: 0; time: 288
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.56010264645957; player life: 69.40000000000029; enemy life: 0; time: 217
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 87.49703951986407; player life: 31.600000000000264; enemy life: 0; time: 288
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.56010264645957; player life: 69.40000000000029; enemy life: 0; time: 217
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.56010264645957; player life: 69.40000000000029; enemy life: 0; time: 217
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 86.5674273611744; player life: 23.200000000000244; enemy life: 0; time: 315
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 91.80936197187236; player life: 71.80000000000027; enemy life: 0; time: 215
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 86.5674273611744; player life: 23.200000000000244; enemy life: 0; time: 315
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 86.5674273611744; player life: 23.200000000000244; enemy life: 0; time: 315
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 66.28626719449063; player life: 0; enemy life: 20.0; time: 303
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 39.601837298482245; player life: 0; enemy life: 50.0; time: 221
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.56814186652396; player life: 59.20000000000033; enemy life: 0; time: 211
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.57289246928256; player life: 59.20000000000033; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.57289246928256; player life: 59.20000000000033; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.56814186652396; player life: 59.20000000000033; enemy life: 0; time: 211
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.56341372532802; player life: 59.20000000000033; enemy life: 0; time: 212
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.99289246928257; player life: 63.40000000000034; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.56341372532802; player life: 59.20000000000033; enemy life: 0; time: 212
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.99289246928257; player life: 63.40000000000034; enemy life: 0; time: 210
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 75.5489615464343; player life: 0; enemy life: 10.0; time: 233
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.19504998251863; player life: 56.20000000000032; enemy life: 0; time: 227
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 57.15356122494227; player life: 0; enemy life: 30.0; time: 346
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.19504998251863; player life: 56.20000000000032; enemy life: 0; time: 227
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 57.15356122494227; player life: 0; enemy life: 30.0; time: 346
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 57.15356122494227; player life: 0; enemy life: 30.0; time: 346
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.9106543710456; player life: 63.40000000000034; enemy life: 0; time: 228
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 90.9106543710456; player life: 63.40000000000034; enemy life: 0; time: 228
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 89.89936107665805; player life: 53.80000000000032; enemy life: 0; time: 240
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 89.71504998251862; player life: 51.40000000000031; enemy life: 0; time: 227
+
+PARAMETER CHANGE: speed = fastest
+
+RUN: run status: enemy: 7; fitness: 66.29955642660931; player life: 0; enemy life: 20.0; time: 299
