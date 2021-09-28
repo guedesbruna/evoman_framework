@@ -48,6 +48,7 @@ def construct_dataset(folder, filename, type):
     if type == 'line': avg['gen'] = avg['gen'] + np.ones(avg.shape[0])
 
     os.chdir('..')
+    os.chdir('..')
 
     return avg
 
@@ -62,10 +63,10 @@ def line_plot(enemy): # enemy (int or str with enemy number)
 
     # plotting
 
-    plt.plot(avg_1['gen'], avg['mean'], color = 'blue', label = 'Mean EA1')
-    plt.plot(avg_1['gen'], avg['best'], linestyle= '--',  color = 'blue', label = 'Maximum EA1')
-    plt.plot(avg_2['gen'], avg['mean'], color='red', label='Mean EA2')
-    plt.plot(avg_2['gen'], avg['best'], linestyle='--', color='red', label='Maximum EA2')
+    plt.plot(avg_1['gen'], avg_1['mean'], color = 'blue', label = 'Mean EA1')
+    plt.plot(avg_1['gen'], avg_1['best'], linestyle= '--',  color = 'blue', label = 'Maximum EA1')
+    plt.plot(avg_2['gen'], avg_2['mean'], color='red', label='Mean EA2')
+    plt.plot(avg_2['gen'], avg_2['best'], linestyle='--', color='red', label='Maximum EA2')
     plt.fill_between(range(1, avg_1.shape[0] + 1), avg_1['mean'] - avg_1['std'], avg_1['mean'] + avg_1['std'],\
                      alpha = 0.5)
     plt.fill_between(range(1, avg_2.shape[0] + 1), avg_2['mean'] - avg_2['std'], avg_2['mean'] + avg_2['std'], \
@@ -83,7 +84,7 @@ def line_plot(enemy): # enemy (int or str with enemy number)
 def box_plot(enemy):
 
     avg_1 = construct_dataset('EA1 E' + str(enemy), 'bi_results', 'box')
-    #avg_2 = construct_dataset('EA2 E' + str(enemy), 'bi_results', 'box')
+    avg_2 = construct_dataset('EA2 E' + str(enemy), 'bi_results', 'box')
 
     plt.boxplot([avg_1['gain'], avg_2['gain']], patch_artist=True, labels=['EA1', 'EA2'])
     plt.xlabel('Evolutionary Algorithm')
@@ -95,7 +96,7 @@ def box_plot(enemy):
 
 # run the function for line plot
 
-line_plot()
+line_plot(7)
 
 # run the function for boxplot
 
