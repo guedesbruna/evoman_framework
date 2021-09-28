@@ -107,7 +107,12 @@ def box_plot(enemy):
         print('----------------------------------------------------')
         print('NOT Gaussian: (reject H0), therefore apply KS')
         #for 2 independent samples with non-normal distribution. H0 > 2 populations are the same
-        print(ks_2samp(avg_1, avg_2)) 
+        print(type(avg_1))
+        avg_1_ = avg_1.iloc[:,1]
+        avg_2_ = avg_2.iloc[:,1]
+        print(type(avg_1_))
+        print(ks_2samp(avg_1_, avg_2_)) 
+
         print('----------------------------------------------------')
 
     plt.boxplot([avg_1['gain'], avg_2['gain']], patch_artist=True, labels=['EA1', 'EA2'])
