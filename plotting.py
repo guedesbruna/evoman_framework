@@ -90,14 +90,13 @@ def box_plot(enemy):
     plt.xlabel('Evolutionary Algorithm')
     plt.ylabel('Individual Gain')
     plt.title('Best Individuals - Enemy ' + str(enemy))
-    plt.legend()
     plt.savefig('boxplot_E' + str(enemy) + '.png')
     plt.show()
 
 # run the function for line plot
 
-line_plot(7)
+#line_plot(7)
 
 # run the function for boxplot
 
-box_plot()
+box_plot(1)
