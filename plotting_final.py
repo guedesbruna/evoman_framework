@@ -98,7 +98,7 @@ def box_plot(enemy):
     print('avg2: Statistics=%.3f, p=%.3f' % (stats, q))
 
     alpha = 0.05
-    if p and q > alpha:
+    if p > alpha and q > alpha:
         print('----------------------------------------------------')
         print('YES Gaussian: (fail to reject H0), therefore apply 2 sample ttest')
         print('2 sample independent ttest: ' + str(ttest_ind(avg_1, avg_2))) 
@@ -115,17 +115,17 @@ def box_plot(enemy):
 
         print('----------------------------------------------------')
 
-    plt.boxplot([avg_1['gain'], avg_2['gain']], patch_artist=True, labels=['EA1', 'EA2'])
-    plt.xlabel('Evolutionary Algorithm')
+    plt.boxplot([avg_1['gain'], avg_2['gain']], labels=['EA1', 'EA2'])
+    plt.plot([0.5,1,2,2.5], [0,0,0,0], color ='black') # plot line to highlight 0
     plt.ylabel('Individual Gain')
     plt.title('Best Individuals - Enemy ' + str(enemy))
     plt.savefig('boxplot_E' + str(enemy) + '.png')
     plt.show()
 
-# run the function for line plot
+# run the function for line plot, specify enemy number as parameter
 
 #line_plot(7)
 
-# run the function for boxplot
+# run the function for boxplot, specify enemy number as parameter
 
-box_plot(1)
+box_plot(7)
