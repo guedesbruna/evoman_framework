@@ -117,7 +117,6 @@ def box_plot(enemy):
 
     plt.boxplot([avg_1['gain'], avg_2['gain']], labels=['EA1', 'EA2'])
     plt.plot([0.5,1,2,2.5], [0,0,0,0], color ='black') # plot line to highlight 0
-    plt.xlabel('Evolutionary Algorithm')
     plt.ylabel('Individual Gain')
     plt.title('Best Individuals - Enemy ' + str(enemy))
     plt.savefig('boxplot_E' + str(enemy) + '.png')
