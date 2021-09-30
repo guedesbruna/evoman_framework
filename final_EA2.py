@@ -1,36 +1,24 @@
-###############################################################################
-# EvoMan FrameWork - V1.0 2016  			                                  #
-# DEMO : Neuroevolution - Genetic Algorithm  neural network.                  #
-# Author: Karine Miras        			                                      #
-# karine.smiras@gmail.com     				                                  #
-###############################################################################
-
-# imports framework
 import sys
 
 sys.path.insert(0, 'evoman')
 from environment import Environment
 from demo_controller import player_controller
 
-# imports other libs
 import time
 import numpy as np
 from math import fabs, sqrt, exp, e
 import glob, os
 
-# choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-# experiment_name = 'individual_demo'
 experiment_name = 'dummy_demo'
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
 n_hidden_neurons = 10
 
-# initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
                   enemies=[3],  # array with 1 to 8 items
                   playermode="ai",
@@ -41,18 +29,13 @@ env = Environment(experiment_name=experiment_name,
                   speed="fastest",
                   randomini="yes")
 
-# default environment fitness is assumed for experiment
-env.state_to_log()  # checks environment state
 
-####   Optimization for controller solution (best genotype-weights for phenotype-network): Ganetic Algorihm    ###
+env.state_to_log()  
 
-ini = time.time()  # sets time marker
+ini = time.time() 
 
-# genetic algorithm params
+run_mode = 'train' 
 
-run_mode = 'train'  # train or test
-
-# number of weights for multilayer with 10 hidden neurons
 n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1) * 5
 
 dom_u = 1
@@ -62,14 +45,11 @@ gens = 20  # 30
 mutation = 0.2  # 0.2
 last_best = 0
 
-
-# runs simulation
 def simulation(env, x):
     f, p, e, t = env.play(pcont=x)  # fitness, player, enemy, time
     return f, p - e
 
 
-# evaluation
 def evaluate(x):
     return np.array(list(map(lambda y: simulation(env, y), x)))
 
@@ -94,7 +74,6 @@ def rank_selection(pop):
     return pop[picked_index]
 
 
-# limits
 def limits(x):
     if x > dom_u:
         return dom_u
@@ -103,8 +82,6 @@ def limits(x):
     else:
         return x
 
-
-# crossover
 
 def crossover(pop):
     total_offspring = np.zeros((0, n_vars))
@@ -181,7 +158,6 @@ def explore(pop, fit_pop):
     return pop, fit_pop, fit_pop_ind
 
 
-# loads file with the best solution for testing
 if run_mode == 'test':
     bsol = np.loadtxt(experiment_name + '/best.txt')
     print('\n RUNNING SAVED BEST SOLUTION \n')
@@ -189,8 +165,6 @@ if run_mode == 'test':
     evaluate([bsol])[:, 0]
 
     sys.exit(0)
-
-# initializes population loading old solutions or generating new ones
 
 if not os.path.exists(experiment_name + '/evoman_solstate'):
 
@@ -217,12 +191,9 @@ else:
     mean = np.mean(fit_pop)
     std = np.std(fit_pop)
 
-    # finds last generation number
     file_aux = open(experiment_name + '/gen.txt', 'r')
     ini_g = int(file_aux.readline())
     file_aux.close()
-
-# evolution
 
 last_sol = fit_pop[best]
 notimproved = 0
@@ -239,9 +210,8 @@ for j in range(0, 10):  # add to the end j+=1 e tb resetear logs
     solutions = [pop, fit_pop]
     env.update_solutions(solutions)
 
-    # saves results for first pop
     file_aux = open(experiment_name + '/results_' + str(j) + '.txt', 'a')
-    # file_aux.write('\n\ngen best mean std')
+
     print('\n GENERATION ' + str(ini_g) + ' ' + str(round(fit_pop[best], 6)) + ' ' + str(round(mean, 6)) + ' ' + str(
         round(std, 6)) + ' ' + str(round(fit_pop_ind[best_ind], 6)))
     file_aux.write(
