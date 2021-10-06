@@ -7,3 +7,5 @@ This code contains different functions for training two instances of GA10 (one w
 - final_EA2.py, function that runs EA2 for a specified enemy and saves results of the runs and best individuals based on individual gain
 - best_individual.py, function that runs the best individual of each run for a specific enemy, given enemy number and EA number
 - plotting_final.py, function that plots line and boxplots to compare the 2 EAs when passed an enemy as a parameter, also calculates T-Tests or Kolmogorov-Smirnov Tests after checking for normality 
+
+Task 2: Generalist Agent
