@@ -148,10 +148,8 @@ def limits(x):
 
 #check whether two parents are the same
 def check_duplicates(p_index1, p_index2):
-    print("\n P1 P2 BEFORE LOOP:", p_index1, p_index2)
     while True:
         if p_index1 != p_index2:
-            print("\n P1 P2 AFTER LOOP:", p_index1, p_index2)
             return pop[p_index1], p_index1
         p1, p_index1 = rank_tournament(pop)
 
