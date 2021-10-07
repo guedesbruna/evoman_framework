@@ -33,7 +33,7 @@ n_hidden_neurons = 10
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
                   multiplemode = "yes",
-                  enemies=[1,2],  # array with 1 to 8 items
+                  enemies=[1, 2],  # array with 1 to 8 items
                   playermode="ai",
                   player_controller=player_controller(n_hidden_neurons),
                   enemymode="static",
@@ -58,7 +58,7 @@ n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1)
 
 dom_u = 1
 dom_l = -1
-npop = 50 # 100
+npop = 15 # 100
 gens = 20  # 30
 mutation = 0.2  # 0.2
 last_best = 0
@@ -147,7 +147,7 @@ def limits(x):
         return x
 
 #check whether two parents are the same
-def check_duplicates(p_index1, p_index2):
+def check_duplicates(p_index1, p_index2, pop):
     while True:
         if p_index1 != p_index2:
             return pop[p_index1], p_index1
@@ -161,7 +161,7 @@ def crossover(pop):
         p1, p_index1 = rank_tournament(pop)
         p2, p_index2 = rank_tournament(pop)
 
-        p1, p_index1 = check_duplicates(p_index1, p_index2)
+        p1, p_index1 = check_duplicates(p_index1, p_index2, pop)
 
         # n_offspring =   np.random.randint(1,3+1, 2)[0]
         n_offspring = int(2) 
@@ -221,7 +221,6 @@ def mu_and_lambda(pop, offspring):
 # performs (μ, λ) selection with μ = population size and λ = offspring size
 # only (and all) children survive
 def mu_lambda(pop, offspring):
-    #combine parents and offspring
     pop = offspring
     fit_pop = evaluate(pop)[:, 0]
     fit_pop_ind = evaluate(pop)[:, 1]
@@ -335,7 +334,7 @@ for j in range(0, 10):  # add to the end j+=1 e tb resetear logs
         best_sol = fit_pop[best]
 
         # selection
-        pop, fit_pop, fit_pop_ind = mu_lambda(pop, offspring)
+        pop, fit_pop, fit_pop_ind = mu_and_lambda(pop, offspring)
 
         #add some exploration to prevent getting stuck in local maximum
         if best_sol <= last_sol:
