@@ -58,8 +58,8 @@ n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1)
 
 dom_u = 1
 dom_l = -1
-npop = 10 # 100
-gens = 10  # 30
+npop = 15 # 100
+gens = 20  # 30
 mutation = 0.2  # 0.2
 last_best = 0
 
@@ -100,15 +100,6 @@ def evaluate(x, gen, fitness_previous): #originally just x
     return np.array(list(map(lambda y: simulation_fitrew(env, y,gen, fitness_previous), x))) #simulation only by default
 
 
-# tournament for comparing 2 individuals
-def tournament(pop):
-    c1 = np.random.randint(0, pop.shape[0], 1)
-    c2 = np.random.randint(0, pop.shape[0], 1)
-
-    if fit_pop[c1] > fit_pop[c2]:
-        return pop[c1][0]
-    else:
-        return pop[c2][0]
 
 def rank_tournament(pop):
     pop_sorted = np.argsort(-fit_pop)
@@ -129,25 +120,6 @@ def rank_tournament(pop):
         return pop[c1], c1
     else:
         return pop[c2], c2
-
-def rank_selection(pop):
-    # select parent based on rank selection method
-
-    # rank population based on fitness (high to low)
-    pop_sorted = np.argsort(-fit_pop)
-    probs = []
-    n = npop
-    s = 1.5  # between 1 and 2: if set to two, the lowest rank will never be picked
-
-    for i in range(len(pop_sorted)):
-        p = (2 - s) / n + ((2 * i) * (s - 1)) / (n * (n - 1))
-        probs.append(p)
-
-    # pick a parent based on the probs
-    probs = probs / np.sum(probs)
-    picked_index = np.random.choice(pop_sorted, p=probs)
-
-    return pop[picked_index]
 
 
 # limits
@@ -231,34 +203,31 @@ def mu_and_lambda(pop, offspring, gen, fitness_previous):
 
     return new_pop, new_fit_pop, new_fit_pop_ind
 
-# performs (μ, λ) selection with μ = population size and λ = offspring size
-# only (and all) children survive
+#mu_lamda with elitism
 def mu_lambda(pop, offspring, gen, fitness_previous):
-    pop = offspring
-    fit_pop = evaluate(pop, gen, fitness_previous)[:, 0]
-    fit_pop_ind = evaluate(pop, gen, fitness_previous)[:, 1]
 
-    return pop, fit_pop, fit_pop_ind
+    #elitism: select best n parents to keep
+    n_elite = int(npop*0.20)
+    parents = pop
+    parents_fit_pop = evaluate(pop, gen, fitness_previous)[:, 0]
+    parents_to_keep_ind = np.argsort(-parents_fit_pop)[:n_elite]
+    parents_to_keep = parents[parents_to_keep_ind]
+
+    #select best n children
+    n_children = int(npop*0.80)
+    offspring_fit_pop = evaluate(offspring, gen, fitness_previous)[:, 0]
+    children_to_keep_ind = np.argsort(-offspring_fit_pop)[:n_children]
+    children_to_keep = offspring[children_to_keep_ind]
+
+    #combine best children + best parents
+    new_pop = np.vstack((parents_to_keep, children_to_keep))
+    new_fit_pop = evaluate(new_pop, gen, fitness_previous)[:, 0]
+    new_fit_pop_ind = evaluate(new_pop, gen, fitness_previous)[:, 1]
+
+    return new_pop, new_fit_pop, new_fit_pop_ind
 
 
-# kills the worst genomes, and replace with new best/random solutions
-def doomsday(pop, fit_pop, gen, fitness_previous):
-    worst = int(npop / 4)  # a quarter of the population
-    order = np.argsort(fit_pop)
-    orderasc = order[0:worst]
-
-    for o in orderasc:
-        for j in range(0, n_vars):
-            pro = np.random.uniform(0, 1)
-            if np.random.uniform(0, 1) <= pro:
-                pop[o][j] = np.random.uniform(dom_l, dom_u)  # random dna, uniform dist.
-            else:
-                pop[o][j] = pop[order[-1:]][0][j]  # dna from best
-
-        fit_pop[o] = evaluate([pop[o]], gen, fitness_previous)[:, 0]
-
-    return pop, fit_pop
-
+#replaces worst genomes with random new ones
 def explore(pop, fit_pop, gen, fitness_previous):
     n_replace = int(npop*0.20)
     to_replace = np.argsort(fit_pop)[:n_replace] #select random 15% genomes
@@ -352,7 +321,7 @@ for j in range(0, 10):  # number of runs
 
 
         # selection
-        pop, fit_pop, fit_pop_ind = mu_and_lambda(pop, offspring, i, prev_fit)
+        pop, fit_pop, fit_pop_ind = mu_lambda(pop, offspring, i, prev_fit)
 
         #add some exploration to prevent getting stuck in local maximum
         if best_sol <= last_sol:
@@ -363,7 +332,7 @@ for j in range(0, 10):  # number of runs
 
         if notimproved >= 10:
 
-            pop, fit_pop, fit_pop_ind = explore(pop, fit_pop)
+            pop, fit_pop, fit_pop_ind = explore(pop, fit_pop, i, prev_fit)
 
             notimproved = 0
 
