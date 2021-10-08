@@ -71,12 +71,10 @@ def simulation(env, x):
 
 def simulation_fitrew(env, x, gen, fitness_previous):
     f, p, e, t = env.play(pcont=x)
-    gen = i #n generation
     C = 1 #fixed
     alpha = 1.5 #between 1 and 2
     W = (C*gen)**alpha #(the more generations passes the bigger the reward if fitness is better than previous)
-    fitness_previous = f ###how to store the previous?
-    if fitness_previous < f:
+    if np.mean(fitness_previous) < np.mean(f):
         #since we are maximizing, it's not a penalty but a reward concept
         f = f + W * 1 #reward hardcoded here 
     else:
@@ -98,18 +96,10 @@ def norm(x, pfit_pop):
 # evaluation
 def evaluate(x, gen, fitness_previous): #originally just x
     #return np.array(list(map(lambda y: simulation(env, y), x)))
-    return np.array(list(map(lambda y: simulation_fitrew(env, y), x, gen, fitness_previous))) #simulation only by default
+    #print(np.array(list(map(lambda y: simulation(env, y), x))
+    return np.array(list(map(lambda y: simulation_fitrew(env, y,gen, fitness_previous), x))) #simulation only by default
 
 
-# tournament for comparing 2 individuals
-def tournament(pop):
-    c1 = np.random.randint(0, pop.shape[0], 1)
-    c2 = np.random.randint(0, pop.shape[0], 1)
-
-    if fit_pop[c1] > fit_pop[c2]:
-        return pop[c1][0]
-    else:
-        return pop[c2][0]
 
 def rank_tournament(pop):
     pop_sorted = np.argsort(-fit_pop)
@@ -130,25 +120,6 @@ def rank_tournament(pop):
         return pop[c1], c1
     else:
         return pop[c2], c2
-
-def rank_selection(pop):
-    # select parent based on rank selection method
-
-    # rank population based on fitness (high to low)
-    pop_sorted = np.argsort(-fit_pop)
-    probs = []
-    n = npop
-    s = 1.5  # between 1 and 2: if set to two, the lowest rank will never be picked
-
-    for i in range(len(pop_sorted)):
-        p = (2 - s) / n + ((2 * i) * (s - 1)) / (n * (n - 1))
-        probs.append(p)
-
-    # pick a parent based on the probs
-    probs = probs / np.sum(probs)
-    picked_index = np.random.choice(pop_sorted, p=probs)
-
-    return pop[picked_index]
 
 
 # limits
@@ -210,12 +181,12 @@ def crossover(pop):
 
 # performs (μ and λ) selection with μ = population size and λ = offspring size
 # both parents and children can survive, with higher probability if their fitness if higher
-def mu_and_lambda(pop, offspring):
+def mu_and_lambda(pop, offspring, gen, fitness_previous):
     #combine parents and offspring
     pop = np.vstack((pop,offspring))
 
     # sort population from highest fitness to lowest fitness
-    fit_pop = evaluate(pop)[:, 0]
+    fit_pop = evaluate(pop, gen, fitness_previous)[:, 0]
     pop_sorted = np.argsort(-fit_pop)  # returns indexes (from index with highest fitness to index with lowest fitness)
 
     # pick the best genomes and put them in the new population
@@ -227,40 +198,37 @@ def mu_and_lambda(pop, offspring):
 
     # make sure the population size has the size npop
     assert len(new_pop) == npop, print('PopulationSize Error')
-    new_fit_pop = evaluate(new_pop)[:, 0]
-    new_fit_pop_ind = evaluate(new_pop)[:, 1]
+    new_fit_pop = evaluate(new_pop, gen, fitness_previous)[:, 0]
+    new_fit_pop_ind = evaluate(new_pop, gen, fitness_previous)[:, 1]
 
     return new_pop, new_fit_pop, new_fit_pop_ind
 
-# performs (μ, λ) selection with μ = population size and λ = offspring size
-# only (and all) children survive
-def mu_lambda(pop, offspring):
-    pop = offspring
-    fit_pop = evaluate(pop)[:, 0]
-    fit_pop_ind = evaluate(pop)[:, 1]
+#mu_lamda with elitism
+def mu_lambda(pop, offspring, gen, fitness_previous):
 
-    return pop, fit_pop, fit_pop_ind
+    #elitism: select best n parents to keep
+    n_elite = int(npop*0.20)
+    parents = pop
+    parents_fit_pop = evaluate(pop, gen, fitness_previous)[:, 0]
+    parents_to_keep_ind = np.argsort(-parents_fit_pop)[:n_elite]
+    parents_to_keep = parents[parents_to_keep_ind]
+
+    #select best n children
+    n_children = int(npop*0.80)
+    offspring_fit_pop = evaluate(offspring, gen, fitness_previous)[:, 0]
+    children_to_keep_ind = np.argsort(-offspring_fit_pop)[:n_children]
+    children_to_keep = offspring[children_to_keep_ind]
+
+    #combine best children + best parents
+    new_pop = np.vstack((parents_to_keep, children_to_keep))
+    new_fit_pop = evaluate(new_pop, gen, fitness_previous)[:, 0]
+    new_fit_pop_ind = evaluate(new_pop, gen, fitness_previous)[:, 1]
+
+    return new_pop, new_fit_pop, new_fit_pop_ind
 
 
-# kills the worst genomes, and replace with new best/random solutions
-def doomsday(pop, fit_pop):
-    worst = int(npop / 4)  # a quarter of the population
-    order = np.argsort(fit_pop)
-    orderasc = order[0:worst]
-
-    for o in orderasc:
-        for j in range(0, n_vars):
-            pro = np.random.uniform(0, 1)
-            if np.random.uniform(0, 1) <= pro:
-                pop[o][j] = np.random.uniform(dom_l, dom_u)  # random dna, uniform dist.
-            else:
-                pop[o][j] = pop[order[-1:]][0][j]  # dna from best
-
-        fit_pop[o] = evaluate([pop[o]])[:, 0]
-
-    return pop, fit_pop
-
-def explore(pop, fit_pop):
+#replaces worst genomes with random new ones
+def explore(pop, fit_pop, gen, fitness_previous):
     n_replace = int(npop*0.20)
     to_replace = np.argsort(fit_pop)[:n_replace] #select random 15% genomes
 
@@ -268,9 +236,9 @@ def explore(pop, fit_pop):
     for g in to_replace:
         for v in range(0, n_vars):
             pop[g][v] = np.random.uniform(-1, 1)
-        fit_pop[g] = evaluate([pop[g]])[:, 0]
+        fit_pop[g] = evaluate([pop[g]], gen, fitness_previous)[:, 0]
 
-    fit_pop_ind = evaluate(pop)[:, 1]
+    fit_pop_ind = evaluate(pop, gen, fitness_previous)[:, 1]
     return pop, fit_pop, fit_pop_ind
 
 
@@ -280,7 +248,7 @@ if run_mode == 'test':
     bsol = np.loadtxt(experiment_name + '/best.txt')
     print('\n RUNNING SAVED BEST SOLUTION \n')
     env.update_parameter('speed', 'normal')
-    evaluate([bsol])[:, 0]
+    evaluate([bsol], 0, -100)[:, 0]
 
     sys.exit(0)
 
@@ -291,7 +259,7 @@ if not os.path.exists(experiment_name + '/evoman_solstate'):
     print('\nNEW EVOLUTION\n')
 
     pop = np.random.uniform(dom_l, dom_u, (npop, n_vars))
-    fit_pop = evaluate(pop)[:, 0]
+    fit_pop = evaluate(pop, 0, -100)[:, 0]
     best = np.argmax(fit_pop)
     mean = np.mean(fit_pop)
     std = np.std(fit_pop)
@@ -324,8 +292,8 @@ notimproved = 0
 j = 0
 for j in range(0, 10):  # number of runs
     pop = np.random.uniform(dom_l, dom_u, (npop, n_vars))
-    fit_pop = evaluate(pop)[:, 0]  #fitness
-    fit_pop_ind = evaluate(pop)[:, 1]  #p-e
+    fit_pop = evaluate(pop, 0, -100)[:, 0]  #fitness
+    fit_pop_ind = evaluate(pop, 0, -100)[:, 1]  #gain = p-e
     best = np.argmax(fit_pop)
     best_ind = np.argmax(fit_pop_ind)
     mean = np.mean(fit_pop)
@@ -344,12 +312,16 @@ for j in range(0, 10):  # number of runs
             round(std, 6)) + ' ' + str(round(fit_pop_ind[best_ind], 6)))
     file_aux.close()
 
+
     for i in range(ini_g + 1, gens): # n generations
+        prev_fit = fit_pop
+        fit_pop = evaluate(pop, i, prev_fit)[:, 0]
         offspring = crossover(pop)
         best_sol = fit_pop[best]
 
+
         # selection
-        pop, fit_pop, fit_pop_ind = mu_and_lambda(pop, offspring)
+        pop, fit_pop, fit_pop_ind = mu_lambda(pop, offspring, i, prev_fit)
 
         #add some exploration to prevent getting stuck in local maximum
         if best_sol <= last_sol:
@@ -360,7 +332,7 @@ for j in range(0, 10):  # number of runs
 
         if notimproved >= 10:
 
-            pop, fit_pop, fit_pop_ind = explore(pop, fit_pop)
+            pop, fit_pop, fit_pop_ind = explore(pop, fit_pop, i, prev_fit)
 
             notimproved = 0
 
