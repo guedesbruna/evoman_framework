@@ -122,10 +122,10 @@ def box_plot(enemy):
     plt.savefig('boxplot_E' + str(enemy) + '.png')
     plt.show()
 
-# run the function for line plot, specify enemy group as X_Y_Z
+# run the function for line plot, specify enemy group as _X_Y_Z
 
 line_plot()
 
-# run the function for boxplot, specify enemy number as X_Y_Z
+# run the function for boxplot, specify enemy number as _X_Y_Z
 
 box_plot()
