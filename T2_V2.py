@@ -32,8 +32,9 @@ n_hidden_neurons = 10
 
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
+                  logs="off",
                   multiplemode = "yes",
-                  enemies=[1, 2],  # array with 1 to 8 items
+                  enemies=[2,5,7],  # array with 1 to 8 items
                   playermode="ai",
                   player_controller=player_controller(n_hidden_neurons),
                   enemymode="static",
@@ -58,7 +59,7 @@ n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1)
 
 dom_u = 1
 dom_l = -1
-npop = 15 # 100
+npop = 100 # 100
 gens = 20  # 30
 mutation = 0.2  # 0.2
 last_best = 0
@@ -71,7 +72,7 @@ def simulation(env, x):
 
 def simulation_fitrew(env, x, gen, fitness_previous):
     f, p, e, t = env.play(pcont=x)
-    C = 1 #fixed
+    C = 0.1 #fixed
     alpha = 1.5 #between 1 and 2
     W = (C*gen)**alpha #(the more generations passes the bigger the reward if fitness is better than previous)
     if np.mean(fitness_previous) < np.mean(f):
