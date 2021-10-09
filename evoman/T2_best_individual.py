@@ -24,6 +24,7 @@ n_hidden_neurons = 10
 
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
+                  multiplemode = "yes",
                   enemies=en,  # array with 1 to 8 items
                   playermode="ai",
                   player_controller=player_controller(n_hidden_neurons),
