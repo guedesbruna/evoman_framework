@@ -32,6 +32,7 @@ n_hidden_neurons = 10
 
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
+                  logs="off",
                   multiplemode = "yes",
                   enemies=[1, 2],  # array with 1 to 8 items
                   playermode="ai",
@@ -58,7 +59,7 @@ n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1)
 
 dom_u = 1
 dom_l = -1
-npop = 15 # 100
+npop = 100 # 100
 gens = 20  # 30
 mutation = 0.2  # 0.2
 last_best = 0
@@ -218,14 +219,28 @@ def mu_and_lambda(pop, offspring):
 
     return new_pop, new_fit_pop, new_fit_pop_ind
 
-# performs (μ, λ) selection with μ = population size and λ = offspring size
-# only (and all) children survive
+#mu_lamda with elitism
 def mu_lambda(pop, offspring):
-    pop = offspring
-    fit_pop = evaluate(pop)[:, 0]
-    fit_pop_ind = evaluate(pop)[:, 1]
 
-    return pop, fit_pop, fit_pop_ind
+    #elitism: select best n parents to keep
+    n_elite = int(npop*0.20)
+    parents = pop
+    parents_fit_pop = evaluate(pop)[:, 0]
+    parents_to_keep_ind = np.argsort(-parents_fit_pop)[:n_elite]
+    parents_to_keep = parents[parents_to_keep_ind]
+
+    #select best n children
+    n_children = int(npop*0.80)
+    offspring_fit_pop = evaluate(offspring)[:, 0]
+    children_to_keep_ind = np.argsort(-offspring_fit_pop)[:n_children]
+    children_to_keep = offspring[children_to_keep_ind]
+
+    #combine best children + best parents
+    new_pop = np.vstack((parents_to_keep, children_to_keep))
+    new_fit_pop = evaluate(new_pop)[:, 0]
+    new_fit_pop_ind = evaluate(new_pop)[:, 1]
+
+    return new_pop, new_fit_pop, new_fit_pop_ind
 
 
 # kills the worst genomes, and replace with new best/random solutions
@@ -334,7 +349,7 @@ for j in range(0, 10):  # add to the end j+=1 e tb resetear logs
         best_sol = fit_pop[best]
 
         # selection
-        pop, fit_pop, fit_pop_ind = mu_and_lambda(pop, offspring)
+        pop, fit_pop, fit_pop_ind = mu_lambda(pop, offspring)
 
         #add some exploration to prevent getting stuck in local maximum
         if best_sol <= last_sol:
