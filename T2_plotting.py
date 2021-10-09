@@ -21,7 +21,7 @@ def construct_dataset(folder, filename, type):
 
     # change directory
 
-    os.chdir('./dummy_demo/'+str(folder))
+    os.chdir('./dummy_demo_Task2/'+str(folder))
 
     for i in range(NEXP):
 

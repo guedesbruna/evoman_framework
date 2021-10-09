@@ -17,8 +17,8 @@ if headless: os.environ["SDL_VIDEODRIVER"] = "dummy"
 en = [4,8] # change this list to change enemy group
 ea = 1
 
-if len(en) == 2: experiment_name = 'dummy_demo/EA'+str(ea)+' E' + str(en[0]) + '_' +str(en[1])
-else: experiment_name = 'dummy_demo/EA'+str(ea)+' E' + str(en[0]) + '_' +str(en[1]) + '_' +str(en[2])
+if len(en) == 2: experiment_name = 'dummy_demo_Task2/EA'+str(ea)+' E' + str(en[0]) + '_' +str(en[1])
+else: experiment_name = 'dummy_demo_Task2/EA'+str(ea)+' E' + str(en[0]) + '_' +str(en[1]) + '_' +str(en[2])
 
 n_hidden_neurons = 10
 
