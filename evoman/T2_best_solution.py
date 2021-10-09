@@ -14,11 +14,10 @@ if headless: os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 # selects the folder containing the best individuals, change it to run for another EA/enemy
 
-en = [4,8] # change this list to change enemy group
-ea = 1
+en = [1,2,3,4,5,6,7,8] # change this list to change enemy group
 
-if len(en) == 2: experiment_name = 'dummy_demo_Task2/EA'+str(ea)+' E' + str(en[0]) + '_' +str(en[1])
-else: experiment_name = 'dummy_demo_Task2/EA'+str(ea)+' E' + str(en[0]) + '_' +str(en[1]) + '_' +str(en[2])
+experiment_name = 'dummy_demo_Task2/EA' #manually specify folder for best solution
+bsol = np.loadtxt(experiment_name + '/best_indX.txt') #manually specify best individual
 
 n_hidden_neurons = 10
 
@@ -46,23 +45,22 @@ for enemy in en:
 
     def simulation(env, x):
         f, p, e, t = env.play(pcont=x)  # fitness, player, enemy, time
-        return p - e
+        return p, e
 
     def evaluate(x):
         return np.array(list(map(lambda y: simulation(env, y), x)))
 
     # loads file with the best solution for testing
     if run_mode == 'test':
+        for k in range(0,5):
 
-        for j in range(0,10):
-            for k in range(0,5):
-                bsol = np.loadtxt(experiment_name + '/best_ind'+str(j)+'.txt')
-                file_aux = open(experiment_name + '/bi_results_' + str(j) +'en'+str(enemy)+ '.txt', 'a')
-                print('\n RUNNING SAVED BEST SOLUTION '+str(j)+'\n')
-                env.update_parameter('speed', 'fastest')
-                fit = evaluate([bsol])[0]
-                file_aux.write('\n' + str(k)+ ' ' +str(round(fit, 6)))
-                file_aux.close()
+            file_aux = open('optimalSol_E'+str(enemy)+'.txt', 'a')
+            env.update_parameter('speed', 'fastest')
+            fit = evaluate([bsol])[0]
+            player = fit[0]
+            enemy = fit[1]
+            file_aux.write('\n' + str(k)+ ' ' +str(round(player, 6))+' '+str(round(enemy, 6)))
+            file_aux.close()
 
 
 
