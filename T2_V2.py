@@ -75,11 +75,11 @@ def simulation_fitrew(env, x, gen, fitness_previous):
     C = 0.1 #fixed
     alpha = 1.5 #between 1 and 2
     W = (C*gen)**alpha #(the more generations passes the bigger the reward if fitness is better than previous)
-    if np.mean(fitness_previous) < np.mean(f):
-        #since we are maximizing, it's not a penalty but a reward concept
-        f = f + W * 1 #reward hardcoded here 
+    if np.mean(fitness_previous) > np.mean(f):
+        #if previous fitness is higher than current, then penalty to current
+        f = f - W * 1 #reward hardcoded here 
     else:
-        f = f + W * 0 #reward hardcoded here 
+        f = f - W * 0 #reward hardcoded here 
     return f, p-e
 
 # normalizes
