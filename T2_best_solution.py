@@ -14,10 +14,10 @@ if headless: os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 # selects the folder containing the best individuals, change it to run for another EA/enemy
 
-en = [1,2,3,4,5,6,7,8] # change this list to change enemy group
+en = np.array([1,2,3,4,5,6,7,8])
 
-experiment_name = 'dummy_demo_Task2/EA' #manually specify folder for best solution
-bsol = np.loadtxt(experiment_name + '/best_indX.txt') #manually specify best individual
+experiment_name = 'dummy_demo_Task2/EA2 E2_5_7' #manually specify folder for best solution
+bsol = np.loadtxt(experiment_name + '/best_ind5.txt') #manually specify best individual
 
 n_hidden_neurons = 10
 
@@ -25,7 +25,7 @@ for enemy in en:
 
     # initializes simulation in individual evolution mode, for single static enemy.
     env = Environment(experiment_name=experiment_name,
-                    enemies=enemy,  # array with 1 to 8 items
+                    enemies=[enemy],  # array with 1 to 8 items
                     playermode="ai",
                     player_controller=player_controller(n_hidden_neurons),
                     enemymode="static",
@@ -58,8 +58,8 @@ for enemy in en:
             env.update_parameter('speed', 'fastest')
             fit = evaluate([bsol])[0]
             player = fit[0]
-            enemy = fit[1]
-            file_aux.write('\n' + str(k)+ ' ' +str(round(player, 6))+' '+str(round(enemy, 6)))
+            enemyl = fit[1]
+            file_aux.write('\n' + str(k)+ ' ' +str(player)+' '+str(enemyl))
             file_aux.close()
 
 
