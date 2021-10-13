@@ -16,51 +16,54 @@ if headless: os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 en = np.array([1,2,3,4,5,6,7,8])
 
-experiment_name = 'dummy_demo_Task2/EA2 E2_5_7' #manually specify folder for best solution
-bsol = np.loadtxt(experiment_name + '/best_ind5.txt') #manually specify best individual
+experiment_name = 'dummy_demo_Task2/EA2 E2_5_7 C0.5' #manually specify folder for best solution
 
-n_hidden_neurons = 10
+for ind in range(0,10):
 
-for enemy in en:
+    bsol = np.loadtxt(experiment_name + '/best_ind'+str(ind)+'.txt') #manually specify best individual
 
-    # initializes simulation in individual evolution mode, for single static enemy.
-    env = Environment(experiment_name=experiment_name,
-                    enemies=[enemy],  # array with 1 to 8 items
-                    playermode="ai",
-                    player_controller=player_controller(n_hidden_neurons),
-                    enemymode="static",
-                    level=2,
-                    contacthurt='player',
-                    speed="fastest",
-                    randomini="yes")
+    n_hidden_neurons = 10
 
-    # default environment fitness is assumed for experiment
-    env.state_to_log()  # checks environment state
+    for enemy in en:
 
-    ####   Optimization for controller solution (best genotype-weights for phenotype-network): Ganetic Algorihm    ###
+        # initializes simulation in individual evolution mode, for single static enemy.
+        env = Environment(experiment_name=experiment_name,
+                        enemies=[enemy],  # array with 1 to 8 items
+                        playermode="ai",
+                        player_controller=player_controller(n_hidden_neurons),
+                        enemymode="static",
+                        level=2,
+                        contacthurt='player',
+                        speed="fastest",
+                        randomini="yes")
 
-    ini = time.time()  # sets time marker
+        # default environment fitness is assumed for experiment
+        env.state_to_log()  # checks environment state
 
-    run_mode = 'test'  # train or test
+        ####   Optimization for controller solution (best genotype-weights for phenotype-network): Ganetic Algorihm    ###
 
-    def simulation(env, x):
-        f, p, e, t = env.play(pcont=x)  # fitness, player, enemy, time
-        return p, e
+        ini = time.time()  # sets time marker
 
-    def evaluate(x):
-        return np.array(list(map(lambda y: simulation(env, y), x)))
+        run_mode = 'test'  # train or test
 
-    # loads file with the best solution for testing
-    if run_mode == 'test':
-        for k in range(0,5):
+        def simulation(env, x):
+            f, p, e, t = env.play(pcont=x)  # fitness, player, enemy, time
+            return p, e
 
-            file_aux = open('optimalSol_E'+str(enemy)+'.txt', 'a')
-            env.update_parameter('speed', 'fastest')
-            fit = evaluate([bsol])[0]
-            player = fit[0]
-            enemyl = fit[1]
-            file_aux.write('\n' + str(k)+ ' ' +str(player)+' '+str(enemyl))
-            file_aux.close()
+        def evaluate(x):
+            return np.array(list(map(lambda y: simulation(env, y), x)))
+
+        # loads file with the best solution for testing
+        if run_mode == 'test':
+            for k in range(0,5):
+
+                file_aux = open('optimalSol_ind'+str(ind)+'E'+str(enemy)+'.txt', 'a')
+                env.update_parameter('speed', 'fastest')
+                fit = evaluate([bsol])[0]
+                player = fit[0]
+                enemyl = fit[1]
+                file_aux.write('\n' + str(k)+ ' ' +str(player)+' '+str(enemyl))
+                file_aux.close()
 
 
 
