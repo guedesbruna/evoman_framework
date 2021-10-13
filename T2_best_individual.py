@@ -14,8 +14,8 @@ if headless: os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 # selects the folder containing the best individuals, change it to run for another EA/enemy
 
-en = [4,8] # change this list to change enemy group
-ea = 1
+en = [2,5,7] # change this list to change enemy group
+ea = 2
 
 if len(en) == 2: experiment_name = 'dummy_demo_Task2/EA'+str(ea)+' E' + str(en[0]) + '_' +str(en[1])
 else: experiment_name = 'dummy_demo_Task2/EA'+str(ea)+' E' + str(en[0]) + '_' +str(en[1]) + '_' +str(en[2])
