@@ -124,8 +124,8 @@ def box_plot(enemy):
 
 # run the function for line plot, specify enemy group as X_Y_Z
 
-line_plot('2_5_7')
+line_plot('3_4_7')
 
 # run the function for boxplot, specify enemy group as X_Y_Z
 
-box_plot("2_5_7")
+box_plot("3_4_7")
