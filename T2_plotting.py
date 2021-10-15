@@ -78,7 +78,7 @@ def line_plot(enemy): # enemy (int or str with enemy number)
                      alpha=0.5)
     plt.xlabel('Generation Number')
     plt.ylabel('Fitness')
-    plt.title('Enemy ' + str(enemy))
+    plt.title('Enemies ' + str(enemy))
     plt.legend()
     plt.savefig('line_plot_E' +str(enemy)+'.png')
     plt.show()
@@ -118,14 +118,14 @@ def box_plot(enemy):
     plt.boxplot([avg_1['gain'], avg_2['gain']], labels=['EA1', 'EA2'])
     plt.plot([0.5,1,2,2.5], [0,0,0,0], color ='black') # plot line to highlight 0
     plt.ylabel('Consolidated Gain')
-    plt.title('Enemy ' + str(enemy))
+    plt.title('Enemies ' + str(enemy))
     plt.savefig('boxplot_E' + str(enemy) + '.png')
     plt.show()
 
-# run the function for line plot, specify enemy group as X_Y_Z
+# run the function for line plot, specify enemy group as X_Y_Z string
 
-line_plot('3_4_7')
+line_plot('4_8')
 
-# run the function for boxplot, specify enemy group as X_Y_Z
+# run the function for boxplot, specify enemy group as X_Y_Z string
 
-box_plot("3_4_7")
+box_plot("4_8")

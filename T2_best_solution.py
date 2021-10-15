@@ -16,11 +16,11 @@ if headless: os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 en = np.array([1,2,3,4,5,6,7,8])
 
-experiment_name = 'dummy_demo_Task2/EA2 E2_5_7 C0.5' #manually specify folder for best solution
+experiment_name = 'dummy_demo_Task2/EA2 E5_7' #manually specify folder for best solution
 
 for ind in range(0,10):
 
-    bsol = np.loadtxt(experiment_name + '/best_ind'+str(ind)+'.txt') #manually specify best individual
+    bsol = np.loadtxt(experiment_name + '/best_ind'+str(ind)+'.txt')
 
     n_hidden_neurons = 10
 
